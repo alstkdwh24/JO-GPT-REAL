@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPT HOME</title>
+    <link rel="stylesheet" th:href="@{/css/GPT-Home.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle"/>
+    <link rel="stylesheet" href="/css/modelLogin.css">
+
+</head>
+<body>
+<!--사이드바 구성-->
+<div class="sideBar">
+    <button class="sideBarImg">
+        <img src="/image/app-drawer.png" alt="이상">
+    </button>
+
+    <button class="sideBarButtonImg">
+        <span class="material-symbols-outlined">
+add_circle
+</span>
+    </button>
+    <button class="sideBarImgTwo">
+        <img src="/image/img.png" alt="채팅">
+    </button>
+
+</div>
+<div class="content">
+    <!--탑부분 바-->
+    <div class="topBar">
+        <div class="topBar-left">
+            <h2>JO-GPT</h2>
+        </div>
+        <div class="topBar-middle"></div>
+        <div class="topBar-right">
+            <div class="topBar-rightLeft">
+                <label>
+                    <input type="text">
+                </label>
+            </div>
+            <div class="topBar-rightRight">
+                <div class="topBar-rightRightLeftButton">
+                    <button class="buttonBlack">무료로 회원가입</button>
+                </div>
+                <div class="topBar-rightRightRightButton">
+                    <button class="buttonWhite">로그인</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!--탑바 코드 끝-->
+    <!--내용 부분 작성 realContent-->
+    <div class="realContent">
+        <div class="realBox">
+            <div class="realBoxFont"> 안녕하세요 <span id="userName">땡땡땡</span>님
+            </div><!--여기 변수 필요함-->
+            <label class="input-wrapper">
+
+                <button class="search-btn">
+                    <i class="fa fa-search"></i>
+                </button>
+
+                <input type="text">
+            </label>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{GPT-Login.html :: modelLogin}"></div>
+<script src="/js/GPT-model-button.js"></script>
+</body>
+</html>
