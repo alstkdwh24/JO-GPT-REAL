@@ -1,0 +1,12 @@
+/*모달 회원가입 부분*/
+.modelLogin{
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.4); /* 연한 검정 */
+    z-index: 1000;
+    display: none;
+}
