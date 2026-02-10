@@ -37,6 +37,7 @@
     font-size: 40px;
     font-weight: normal;
 }
+/*끝*/
 
 /*모달 회원가입 및 로그인 중간*/
 .modelJoinSocial{
@@ -46,6 +47,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    position: relative;
 
 }
 
@@ -55,4 +57,26 @@
     border-radius: 50px;
     cursor: pointer;
     border: 1px solid black;
+    display: flex;
+    align-items: center;
+
+}
+
+.socialJoins-round{
+    margin-left: 6px;
+    border-radius: 50%;
+    width: 14%;
+    height: 80%;
+    background-color: #d6d4d4;
+}
+
+.socialJoins-name{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+
+    width: 86%;
+    height: 80%;
 }
