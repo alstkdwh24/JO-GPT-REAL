@@ -6,7 +6,53 @@
     width: 100vw;
     height: 100vh;
 
-    background: rgba(0, 0, 0, 0.4); /* 연한 검정 */
+    background: rgba(0, 0, 0, 0.2);
     z-index: 1000;
     display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modelJoin{
+    width: 30%;
+    min-width: 460px;
+    min-height: 693px;
+    height: 84%;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/*모달 회원가입 또는 로그인 탑부분*/
+.modelJoinTitle{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modelJoinTitleH2{
+    font-size: 40px;
+    font-weight: normal;
+}
+
+/*모달 회원가입 및 로그인 중간*/
+.modelJoinSocial{
+    height: 76%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+[class^="socialJoin-"]{
+    width: 86%;
+    height: 11%;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid black;
 }
