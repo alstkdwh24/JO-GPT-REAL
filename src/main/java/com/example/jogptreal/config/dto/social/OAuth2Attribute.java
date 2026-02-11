@@ -1,8 +1,5 @@
 package com.example.jogptreal.config.dto.social;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +7,6 @@ import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @ToString
 @Builder(access = AccessLevel.PRIVATE) //Builder 메서드를 외부에서 사용하지 않으므로, private 제어자로 지정
@@ -28,11 +24,12 @@ public class OAuth2Attribute {
 
     // 서비스에 따라 OAuth2Attribute 객체를 생성하는 메서드
     static OAuth2Attribute of(String provider, String attributeKey, Map<String, Object> attributes) {
+        System.out.println("카카오 로그인 테스트"+provider);
         switch (provider) {
             case "google":
                 return OfGoogle(provider, attributeKey, attributes);
             case "kakao":
-                return OfKakao(provider, "email", attributes);
+                return OfKakao(provider, "id", attributes);
             case "naver":
                 return OfNaver(provider, "id", attributes);
             default:
@@ -60,7 +57,6 @@ public class OAuth2Attribute {
     private static OAuth2Attribute OfKakao(String provider, String attributeKey, Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
-
         return OAuth2Attribute.builder()
                 .memberId((String) kakaoAccount.get("email"))
 

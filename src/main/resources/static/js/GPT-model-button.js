@@ -8,7 +8,10 @@ buttonBlack.onclick=function (event) {
 }
 
 modelLogin.onclick=function (event){
-    event.preventDefault();
-    console.log("모달 화면 닫음");
-    modelLogin.style.display = "none";
+    if(event.target === modelLogin) {
+        event.preventDefault();
+        console.log("모달 화면 닫음");
+
+        modelLogin.style.display = "none";
+    }
 }

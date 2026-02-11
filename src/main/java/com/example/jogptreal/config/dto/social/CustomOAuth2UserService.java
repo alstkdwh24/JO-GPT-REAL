@@ -29,13 +29,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
+        log.debug("✅ customOAuth2UserService called. registrationId={}",
+                userRequest.getClientRegistration().getRegistrationId());
         OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
 
         OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);//데이터를 가져오는 단계
-
+        log.debug(oAuth2User.toString());
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-
 
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();

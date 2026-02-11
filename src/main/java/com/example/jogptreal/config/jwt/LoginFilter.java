@@ -1,11 +1,9 @@
 package com.example.jogptreal.config.jwt;
 
 import com.example.jogptreal.config.dto.CustomUserDetails;
-import com.example.jogptreal.config.dto.CustomUserInfoDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +21,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JWTUtils jwtUtils;
     public LoginFilter(AuthenticationManager authenticationManager,
                        JWTUtils jwtUtils) {
-        setFilterProcessesUrl("/login"); // 🔥 이게 핵심
+        setFilterProcessesUrl("/api/auth/login");
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }

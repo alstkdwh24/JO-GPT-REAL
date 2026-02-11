@@ -4,24 +4,25 @@ package com.example.jogptreal.config.jwt;
 import com.example.jogptreal.member.entity.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JWTUtils {
 
     private final SecretKey secretKey;
-
     /*
      * 생성자에서 application.properties에 저장된 SecretKey 값을 가져와 설정
      * */
     public JWTUtils(@Value("${spring.jwt.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+
     }
 
     /*
@@ -70,6 +71,8 @@ public class JWTUtils {
      * */
 
     public String createToken(String memberId, String role, Long expiredMs) {
+
+        log.debug("카카오 토큰 생성 단게{}", memberId);
         return Jwts.builder()
                 .claim("memberId", memberId)
                 .claim("role", role)
