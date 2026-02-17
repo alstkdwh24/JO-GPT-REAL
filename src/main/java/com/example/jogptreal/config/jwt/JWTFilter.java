@@ -29,7 +29,6 @@ public class JWTFilter extends OncePerRequestFilter {
         // Authorization 헤더에서 JWT 토큰 추출
         String authorizationHeader = request.getHeader("Authorization");
 
-        logger.debug("카카오 로그인 실험 {}" + authorizationHeader);
 
         if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
