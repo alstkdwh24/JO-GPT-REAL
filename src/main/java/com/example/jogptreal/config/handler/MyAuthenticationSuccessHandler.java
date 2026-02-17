@@ -1,6 +1,5 @@
 package com.example.jogptreal.config.handler;
 
-import com.example.jogptreal.config.dto.social.GeneratedToken;
 import com.example.jogptreal.config.jwt.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

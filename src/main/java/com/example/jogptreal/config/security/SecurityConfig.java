@@ -6,19 +6,19 @@ package com.example.jogptreal.config.security;
  * */
 
 
-import com.example.jogptreal.config.dto.social.CustomOAuth2UserService;
+import com.example.jogptreal.config.dto.CustomOAuth2UserService;
+import com.example.jogptreal.config.handler.OAuth2LoginSuccessHandler;
 import com.example.jogptreal.config.jwt.JWTFilter;
 import com.example.jogptreal.config.jwt.JWTUtils;
 import com.example.jogptreal.config.jwt.LoginFilter;
-import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,7 +31,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.Collections;
 
 @Configuration
-@EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig {
@@ -86,7 +86,7 @@ public class SecurityConfig {
      * */
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService, OAuth2LoginSuccessHandler successHandler) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) //CORS 설정 적용
                 .csrf(AbstractHttpConfigurer::disable) //JWT 사용시 CSRF 보호 비 활성화
@@ -106,32 +106,11 @@ public class SecurityConfig {
                 .addFilterAfter(new LoginFilter(authenticationManager(), jwtUtils), JWTFilter.class)
 
                 //로그인 필터 추가 (JWTFilter 실행 후 JWT 발급 처리)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo ->
-                                userInfo.userService(customOAuth2UserService)
-                        )
-                        .successHandler((req, res, auth) -> {
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .oauth2Login(oauth -> oauth.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+                        .successHandler(successHandler));
 
-                            // 1) 카카오 고유 id (nameAttributeKey가 id면 auth.getName()이 id)
-                            String kakaoId = auth.getName(); // 예: "4745985224"
-                            String memberId = "kakao_" + kakaoId;
-
-                            // 2) 우리 JWT 발급
-                            String jwt = jwtUtils.createToken(memberId, "USER", 60 * 60 * 1000L);
-                            log.debug("jwt토큰생성{}",jwt);
-                            // 3) 브라우저에 저장 (HttpOnly 쿠키 추천)
-                            Cookie cookie = new Cookie("ACCESS_TOKEN", jwt);
-                            cookie.setHttpOnly(true);
-                            cookie.setPath("/");
-                            // cookie.setSecure(true); // https면 true
-                            res.addCookie(cookie);
-
-                            // 4) 이동
-                            res.sendRedirect("/home/GPT-Home");
-                        })
-
-                );
 
         return http.build();
     }
