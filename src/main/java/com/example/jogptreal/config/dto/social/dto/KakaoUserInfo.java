@@ -2,53 +2,68 @@ package com.example.jogptreal.config.dto.social.dto;
 
 import java.util.Map;
 
-public class KakaoUserInfo implements SocialUserInfo{
+public class KakaoUserInfo implements SocialUserInfo {
 
-    private Map<String, Object> attributes;
+    private final Map<String, Object> attributes;
 
-    public KakaoUserInfo(Map<String, Object> attributes){
+    public KakaoUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
+
     @Override
     public String getProviderId() {
 
-        Object responseObj = attributes.get("response");
-
-        if (responseObj instanceof Map<?, ?> responseMap) {
-
-            Object id = responseMap.get("id");
-
-            if (id != null) {
-                return id.toString();
-            }
+        if (attributes.get("id") instanceof Number id) {
+            return id.toString();
         }
 
-        return null; // 또는 예외 처리
+        return null;// 또는 예외 처리
     }
 
     @Override
     public String getName() {
-        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 
-        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-        return profile.get("nickname").toString();
+
+        if (attributes.get("kakao_account") instanceof Map<?, ?> kakaoAccount
+                && kakaoAccount.get("profile") instanceof Map<?, ?> profile) {
+
+            Object nickname = profile.get("nickname");
+            return nickname != null ? nickname.toString() : null;
+        }
+        return null;
     }
 
     @Override
     public String getEmail() {
-        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-        return response.get("email").toString();
+        if(attributes.get("kakao_account")  instanceof Map<?,?> kakaoAccount){
+
+            Object email = kakaoAccount.get("email");
+
+            return email !=null ? email.toString() : null;
+        }
+     return null;
     }
 
     @Override
     public String getImageUrl() {
-        Map<String, Object> response =
-                (Map<String, Object>) attributes.get("response");
+        Object kakaoAccountObject = attributes.get("kakao_account");
+        if(!(kakaoAccountObject instanceof Map <?,?> kakaoAccount)){
+            return null;
+        }
+        Object profileObj = kakaoAccount.get("profile");
 
-        return response.get("profile_image").toString();    }
+        if (!(profileObj instanceof Map<?, ?> profile)) {
+            return null;
+        }
+
+        Object image = profile.get("profile_image_url"); // 원본
+        if (image == null) image = profile.get("thumbnail_image_url"); // 대체
+
+        return image != null ? image.toString() : null;
+    }
 
     @Override
     public String getProvider() {
-        return "naver";
+        return "kakao";
     }
 }

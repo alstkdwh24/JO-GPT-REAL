@@ -11,7 +11,7 @@ public class SocialUserInfoFactory {
             return new KakaoUserInfo(attributes);
 
         } else if (registrationId.equalsIgnoreCase("naver")) {
-            return NaverUserInfo(attributes);
+            return new NaverUserInfo(attributes);
 
         }else{
             throw new IllegalArgumentException("지원되지 않는 로그인 발식입니다." + registrationId);
